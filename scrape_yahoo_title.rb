@@ -22,3 +22,11 @@ p doc.title
 
 table = doc.css(".style_table > tbody > tr")
 p table[2]
+
+p "servant"
+table.each{|s|
+  ele = s.css("th")[0]
+  if (!ele.nil?) then
+    p ele.inner_text
+  end
+}
