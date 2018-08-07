@@ -21,12 +21,12 @@ doc = Nokogiri::HTML.parse(html, nil, charset)
 p doc.title
 
 table = doc.css(".style_table > tbody > tr")
-p table[2]
 
 p "servant"
-table.each{|s|
-  ele = s.css("th")[0]
-  if (!ele.nil?) then
-    p ele.inner_text
+table.each{|col|
+  no = col.css("th")[0]
+  name = col.css("td")[2]
+  if (!name.nil?) then
+    p name.inner_text
   end
 }
