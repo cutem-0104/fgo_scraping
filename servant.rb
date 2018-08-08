@@ -15,16 +15,11 @@ doc = Nokogiri::HTML.parse(html, nil, charset)
 # タイトル
 p doc.title
 
-body = doc.css("body")
+body = doc.css("#body > div > table")[0]
 
-p "h3"
-h = body.css("h3")
-h.each{|ele|
-  p ele.inner_text
-}
-p ""
-p "h2"
-h = body.css("h2")
-h.each{|ele|
-  p ele.inner_text
+tr = body.css('tr')
+tr.each{|ele|
+  key = ele.css("th").inner_text
+  value = ele.css("td").inner_text
+  p key + " : " + value
 }
