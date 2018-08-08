@@ -13,13 +13,30 @@ end
 doc = Nokogiri::HTML.parse(html, nil, charset)
 
 # タイトル
+p "-----title-------"
 p doc.title
 
 body = doc.css("#body > div > table")[0]
 
 tr = body.css('tr')
+
+etr = tr[0]
+p "------etr--------"
+p etr
+p "-----------------"
+
+txt = etr.css("th")
+txt.each{|ele|
+  p ele
+  p ele.inner_text
+}
+
+p "-------------------------"
 tr.each{|ele|
   key = ele.css("th").inner_text
   value = ele.css("td").inner_text
   p key + " : " + value
+  if (ele.css("td").kind_of?(Array)) then
+    p "true"
+  end
 }
