@@ -22,17 +22,7 @@ body = doc.css("#body > div > table")[0]
 tr = body.css('tr')
 
 etr = tr[0]
-p "------etr--------"
-p etr
-p "-----------------"
-
 txt = etr.css("th")
-txt.each{|ele|
-  p ele
-  p ele.inner_text
-}
-
-p "-----------------------"
 tr.each{|ele|
   p "---------------------"
   key = ele.css("th").inner_text
@@ -41,8 +31,6 @@ tr.each{|ele|
 
   keys = ele.css("th")
   values = ele.css("td")
-
-  p
 
   keys.each{|key|
     p "key =  " + key
