@@ -23,7 +23,6 @@ p doc.title
 
 table = doc.css(".style_table > tbody > tr")
 
-
 # サーヴァントの詳細URLを取得し、リスト化する
 url_list = Array.new
 table.each{|col|
@@ -40,8 +39,46 @@ table.each{|col|
   end
 }
 
+# 各サーヴァントのページを取得する
 url_list.each{|url|
-  agent = Mechanize.new
-  page = agent.get(url)
-  p page.search('title')
+  # agent = Mechanize.new
+  # page = agent.get(url)
+  # p page.search('title')
+}
+
+# サーヴァントの詳細情報を取得する
+url = url_list[10]
+charset = nil
+html = open(url) do |f|
+  charset = f.charset
+  f.read
+end
+
+doc = Nokogiri::HTML.parse(html, nil, charset)
+
+# タイトル
+p "-----title-------"
+p doc.title
+
+body = doc.css("#body > div > table")[0]
+
+tr = body.css('tr')
+
+etr = tr[0]
+txt = etr.css("th")
+tr.each{|ele|
+  p "---------------------"
+  key = ele.css("th").inner_text
+  value = ele.css("td").inner_text
+
+  keys = ele.css("th")
+  values = ele.css("td")
+
+  keys.each{|key|
+    p "key =  " + key
+  }
+
+  values.each{|value|
+    p "value = " + value
+  }
 }

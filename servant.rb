@@ -27,7 +27,6 @@ tr.each{|ele|
   p "---------------------"
   key = ele.css("th").inner_text
   value = ele.css("td").inner_text
-  p key + " : " + value
 
   keys = ele.css("th")
   values = ele.css("td")
