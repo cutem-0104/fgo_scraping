@@ -66,19 +66,30 @@ tr = body.css('tr')
 
 etr = tr[0]
 txt = etr.css("th")
+
+key_list = Array.new
+value_list = Array.new
 tr.each{|ele|
   p "---------------------"
-  key = ele.css("th").inner_text
-  value = ele.css("td").inner_text
-
   keys = ele.css("th")
   values = ele.css("td")
 
   keys.each{|key|
-    p "key =  " + key
+    if (!key.inner_text.empty?) then
+      p "key =  " + key
+      key_list.push(key.inner_text)
+    end
   }
 
   values.each{|value|
-    p "value = " + value
+    if (!value.inner_text.empty?) then
+      p value.inner_text
+      value_list.push(value.inner_text)
+    end
   }
 }
+
+count = 0
+key_list[2..(key_list.size - 1)].zip(value_list) do |k, v|
+  p k + ' : ' + v
+end
