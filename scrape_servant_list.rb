@@ -89,7 +89,12 @@ tr.each{|ele|
   }
 }
 
-count = 0
-key_list[2..(key_list.size - 1)].zip(value_list) do |k, v|
+# レア度　No
+p key_list[0]
+p key_list[1]
+
+# パラメーター 宝具まで
+key_list[2..12].zip(value_list) do |k, v|
   p k + ' : ' + v
 end
+
