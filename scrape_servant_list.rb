@@ -2,6 +2,7 @@
 
 # URLにアクセスするためのライブラリの読み込み
 require 'open-uri'
+require 'fileutils'
 # Nokogiriライブラリの読み込み
 require 'nokogiri'
 require 'mechanize'
@@ -64,9 +65,6 @@ body = doc.css("#body > div > table")[0]
 
 tr = body.css('tr')
 
-etr = tr[0]
-txt = etr.css("th")
-
 key_list = Array.new
 value_list = Array.new
 tr.each{|ele|
@@ -93,8 +91,67 @@ tr.each{|ele|
 p key_list[0]
 p key_list[1]
 
+image = body.css('tr')[1].css('td > img').first.attribute('src').value
+p image
+# ready filepath
+dirName = "data/"
+filePath = dirName + key_list[1]
+p filePath
+
+# create folder if not exist
+FileUtils.mkdir_p(dirName) unless FileTest.exist?(dirName)
+
+# write image adata
+open(filePath, 'wb') do |output|
+  open(url) do |data|
+    output.write(data.read)
+  end
+end
 # パラメーター 宝具まで
 key_list[2..12].zip(value_list) do |k, v|
+  p k + ' : ' + v
+end
+
+# パラメーター COSTまで
+key_list[14..16].zip(value_list[11..13]) do |k, v|
+  p k + ' : ' + v
+end
+
+# 保有カード
+key = key_list[17]
+cards = Array.new
+value_list[14..16].each{|card|
+  cards.push(card)
+  p key + ' : ' + card
+}
+
+# 保有スキル1
+key_list[18..22].zip(value_list[17..21]) do |k, v|
+  p k + ' : ' + v
+end
+
+# 保有スキル2
+key_list[18..22].zip(value_list[24..28]) do |k, v|
+  p k + ' : ' + v
+end
+
+# 保有スキル3
+key_list[18..22].zip(value_list[31..35]) do |k, v|
+  p k + ' : ' + v
+end
+
+# クラススキル
+key_list[23..24].zip(value_list[39..40]) do |k, v|
+  p k + ' : ' + v
+end
+
+# クラススキル
+key_list[23..24].zip(value_list[41..42]) do |k, v|
+  p k + ' : ' + v
+end
+
+# 宝具
+key_list[25..29].zip(value_list[43..47]) do |k, v|
   p k + ' : ' + v
 end
 
