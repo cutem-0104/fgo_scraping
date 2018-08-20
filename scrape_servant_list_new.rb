@@ -48,7 +48,7 @@ url_list.each{|url|
 }
 
 # サーヴァントの詳細情報を取得する
-url = url_list[11]
+url = url_list[195]
 charset = nil
 html = open(url) do |f|
   charset = f.charset
@@ -65,9 +65,15 @@ body = doc.css("#body > div > table")[0]
 
 tr = body.css('tr')
 
+# レア度、No
+rera = tr[0].css('th')[0].inner_text
+p rera
+no = tr[0].css('th')[1].inner_text
+p no
+
+# スキル
 skill_list = Array.new
 flg = false
-
 tr.each{|ele|
   if (flg) then
     skill_list.push(ele)
