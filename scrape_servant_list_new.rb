@@ -3,6 +3,7 @@ require 'open-uri'
 # Nokogiriライブラリの読み込み
 require 'nokogiri'
 require 'mechanize'
+require './servant_status.rb'
 
 # スクレイピング先のURL
 url = 'https://grand_order.wicurio.com/index.php?'
@@ -63,27 +64,25 @@ tr = body.css('tr')
 
 # レア度、No
 rare = tr[0].css('th')[0].inner_text
-p rare
 no = tr[0].css('th')[1].inner_text
-p no
-
 # クラス、属性
 clazz = tr[1].css('td')[1].inner_text
-p clazz
 attri = tr[1].css('td')[2].inner_text
-p attri
-
 # 真名
 name = tr[2].css('td')[0].inner_text
-p name
-
 # 時代
 age = tr[3].css('td')[0].inner_text
-p age
-
 # 地域
 region = tr[4].css('td')[0].inner_text
-p region
+
+s_status = ServantStatus.new(rare, clazz, attri, no, name, age, region)
+p s_status.rare
+p s_status.clazz
+p s_status.attri
+p s_status.number
+p s_status.name
+p s_status.age
+p s_status.region
 
 # 能力値が入れ替わっている場合を考慮
 if tr[5].css('th').inner_text.include?('能力値')
