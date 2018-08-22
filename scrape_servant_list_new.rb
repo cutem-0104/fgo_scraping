@@ -4,6 +4,7 @@ require 'open-uri'
 require 'nokogiri'
 require 'mechanize'
 require './servant_status.rb'
+require './servant_params.rb'
 
 # スクレイピング先のURL
 url = 'https://grand_order.wicurio.com/index.php?'
@@ -85,6 +86,15 @@ p s_status.age
 p s_status.region
 
 # 能力値が入れ替わっている場合を考慮
+hp = ''
+atk = ''
+strength = ''
+endurance = ''
+agile = ''
+magical_power = ''
+fortune = ''
+noble_phantasm = ''
+
 if tr[5].css('th').inner_text.include?('能力値')
   # HP/ATK
   tr[6..7].each do |score|
@@ -92,6 +102,8 @@ if tr[5].css('th').inner_text.include?('能力値')
     value = score.css('td').inner_text
     p key + ' : ' + value
   end
+  hp = tr[6].css('td').inner_text
+  atk = tr[7].css('td').inner_text
 
   # 能力値
   tr[8..10].each do |status|
@@ -102,6 +114,12 @@ if tr[5].css('th').inner_text.include?('能力値')
     value = status.css('td')[1].inner_text
     p key + ' : ' + value
   end
+  strength = tr[8].css('td')[0].inner_text
+  endurance = tr[8].css('td')[1].inner_text
+  agile = tr[9].css('td')[0].inner_text
+  magical_power = tr[9].css('td')[1].inner_text
+  fortune = tr[10].css('td')[0].inner_text
+  noble_phantasm = tr[10].css('td')[1].inner_text
 else
   # HP/ATK
   tr[9..10].each do |score|
@@ -109,6 +127,8 @@ else
     value = score.css('td').inner_text
     p key + ' : ' + value
   end
+  hp = tr[9].css('td').inner_text
+  atk = tr[10].css('td').inner_text
 
   # 能力値
   tr[5..7].each do |status|
@@ -119,16 +139,27 @@ else
     value = status.css('td')[1].inner_text
     p key + ' : ' + value
   end
+  strength = tr[5].css('td')[0].inner_text
+  endurance = tr[5].css('td')[1].inner_text
+  agile = tr[6].css('td')[0].inner_text
+  magical_power = tr[6].css('td')[1].inner_text
+  fortune = tr[7].css('td')[0].inner_text
+  noble_phantasm = tr[7].css('td')[1].inner_text
 end
 # コスト
 cost = tr[11].css('td')[0].inner_text
 p cost
 
 # 保有カード
+cards = []
 tr[12].css('td').each do |card|
   p card.inner_text
+  cards.push(card.inner_text)
 end
 
+s_params = ServantParams.new(no, hp, atk, cost, cards, strength,
+  endurance, agile, magical_power, fortune, noble_phantasm)
+p s_params.number
 # スキル
 skill_list = []
 class_skill_index = 0
@@ -154,7 +185,7 @@ skill_list.each do |ele|
 end
 
 # クラススキル
-nobel_index = 0
+noble_index = 0
 tr[class_skill_index..tr.length].each_with_index do |ele, i|
   word = ''
   word = ele.css('th')[0].inner_text unless ele.css('th').empty?
@@ -170,7 +201,7 @@ tr[class_skill_index..tr.length].each_with_index do |ele, i|
 end
 
 # 宝具
-tr[nobel_index].css('td').each do |nobel|
-  p nobel.inner_text
+tr[noble_index].css('td').each do |noble|
+  p noble.inner_text
 end
-p tr[nobel_index + 2].css('td').inner_text
+p tr[noble_index + 2].css('td').inner_text
