@@ -5,6 +5,7 @@ require 'nokogiri'
 require 'mechanize'
 require './servant_status.rb'
 require './servant_params.rb'
+require './servant_skill.rb'
 
 # スクレイピング先のURL
 url = 'https://grand_order.wicurio.com/index.php?'
@@ -175,6 +176,7 @@ tr.each_with_index do |ele, i|
   break
 end
 
+s_skills = []
 skill_list.each do |ele|
   p '---------------------'
   values = ele.css('td')
@@ -182,6 +184,18 @@ skill_list.each do |ele|
   values.each do |value|
     p value.inner_text unless value.inner_text.empty?
   end
+  next unless values.length == 5
+  name = values[0].inner_text
+  effect = values[1].inner_text
+  continuation = values[2].inner_text
+  ct = values[3].inner_text
+  condition = values[4].inner_text
+  skill = ServantSkill.new(no, name, effect, continuation, ct, condition)
+  s_skills.push(skill)
+end
+
+s_skills.each do |skill|
+  p skill.name
 end
 
 # クラススキル

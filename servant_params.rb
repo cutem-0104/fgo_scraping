@@ -3,8 +3,7 @@ class ServantParams
   attr_accessor :number, :hp, :atk, :cost, :cards, :strength,
     :endurance, :agile, :magical_power, :fortune, :noble_phantasm
 
-  def initialize(number, hp, atk, cost, cards, strength,
-      endurance, agile, magical_power, fortune, noble_phantasm)
+  def initialize(number, hp, atk, cost, cards, strength, endurance, agile, magical_power, fortune, noble_phantasm)
     @number = number
     @hp = hp
     @atk = atk
