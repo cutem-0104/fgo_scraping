@@ -6,6 +6,7 @@ require 'mechanize'
 require './servant_status.rb'
 require './servant_params.rb'
 require './servant_skill.rb'
+require './servant_class_skill.rb'
 
 # スクレイピング先のURL
 url = 'https://grand_order.wicurio.com/index.php?'
@@ -199,6 +200,7 @@ s_skills.each do |skill|
 end
 
 # クラススキル
+s_class_skill = []
 noble_index = 0
 tr[class_skill_index..tr.length].each_with_index do |ele, i|
   word = ''
@@ -212,6 +214,8 @@ tr[class_skill_index..tr.length].each_with_index do |ele, i|
     next
   end
   p ele.css('td')[0].inner_text + ' : ' + ele.css('td')[1].inner_text
+  class_skill = ServantClassSkill.new(no, ele.css('td')[0].inner_text, ele.css('td')[1].inner_text)
+  s_class_skill.push(class_skill)
 end
 
 # 宝具
