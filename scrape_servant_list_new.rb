@@ -7,6 +7,7 @@ require './servant_status.rb'
 require './servant_params.rb'
 require './servant_skill.rb'
 require './servant_class_skill.rb'
+require './noble_phantasm.rb'
 
 # スクレイピング先のURL
 url = 'https://grand_order.wicurio.com/index.php?'
@@ -78,6 +79,7 @@ age = tr[3].css('td')[0].inner_text
 # 地域
 region = tr[4].css('td')[0].inner_text
 
+# プロフィール
 s_status = ServantStatus.new(rare, clazz, attri, no, name, age, region)
 p s_status.rare
 p s_status.clazz
@@ -107,7 +109,7 @@ if tr[5].css('th').inner_text.include?('能力値')
   hp = tr[6].css('td').inner_text
   atk = tr[7].css('td').inner_text
 
-  # 能力値
+  # パラメーター出力
   tr[8..10].each do |status|
     key = status.css('th')[0].inner_text
     value = status.css('td')[0].inner_text
@@ -116,6 +118,7 @@ if tr[5].css('th').inner_text.include?('能力値')
     value = status.css('td')[1].inner_text
     p key + ' : ' + value
   end
+  # パラメーター
   strength = tr[8].css('td')[0].inner_text
   endurance = tr[8].css('td')[1].inner_text
   agile = tr[9].css('td')[0].inner_text
@@ -132,7 +135,7 @@ else
   hp = tr[9].css('td').inner_text
   atk = tr[10].css('td').inner_text
 
-  # 能力値
+  # パラメーター出力
   tr[5..7].each do |status|
     key = status.css('th')[0].inner_text
     value = status.css('td')[0].inner_text
@@ -141,6 +144,7 @@ else
     value = status.css('td')[1].inner_text
     p key + ' : ' + value
   end
+  # パラメーター
   strength = tr[5].css('td')[0].inner_text
   endurance = tr[5].css('td')[1].inner_text
   agile = tr[6].css('td')[0].inner_text
@@ -177,6 +181,7 @@ tr.each_with_index do |ele, i|
   break
 end
 
+# 保有スキル
 s_skills = []
 skill_list.each do |ele|
   p '---------------------'
@@ -206,7 +211,7 @@ tr[class_skill_index..tr.length].each_with_index do |ele, i|
   word = ''
   word = ele.css('th')[0].inner_text unless ele.css('th').empty?
   if word == '宝具名'
-    nobel_index = class_skill_index + i + 1
+    noble_index = class_skill_index + i + 1
     break
   end
   if ele.css('td').length == 1
@@ -223,3 +228,5 @@ tr[noble_index].css('td').each do |noble|
   p noble.inner_text
 end
 p tr[noble_index + 2].css('td').inner_text
+
+# servant_noble_phantasm = NoblePhantasm.new(no, )
