@@ -227,6 +227,20 @@ end
 tr[noble_index].css('td').each do |noble|
   p noble.inner_text
 end
-p tr[noble_index + 2].css('td').inner_text
 
-# servant_noble_phantasm = NoblePhantasm.new(no, )
+noble_info = tr[noble_index].css('td')
+n_name = noble_info[0].inner_text
+n_rank = noble_info[1].inner_text
+n_card_type = noble_info[2].inner_text
+n_type = noble_info[3].inner_text
+n_effect = tr[noble_index + 2].css('td').inner_text
+p tr[noble_index + 2].css('td').inner_text
+servant_noble_phantasm = NoblePhantasm.new(no, n_name, n_rank, n_card_type, n_type, n_effect)
+
+p '-------' + doc.title + '------'
+p s_status
+p s_params
+p s_skills
+p s_class_skill
+p servant_noble_phantasm
+p '-------' + doc.title + '------'
